@@ -1,6 +1,5 @@
 # A simple MultiThread programming application on Zephyr RTOS.
 ### Author: Ashish kumar rambhatla
-### ASURITE: 1215350552
 
 The following sections will demonstrate how to compile and run the program.
 

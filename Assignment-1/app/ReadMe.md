@@ -1,18 +1,18 @@
-## A simple MultiThread programming application on Zephyr RTOS.
+# A simple MultiThread programming application on Zephyr RTOS.
 
 The following sections will demonstrate how to compile and run the program.
 # Author: Ashish kumar rambhatla
 # ASURITE: 1215350552
 
-#####   SYSTEM REQUIREMENTS  #####
+##   SYSTEM REQUIREMENTS  ##
 
-# Runs on macos (12.2.1).
+- Runs on macos (12.2.1).
 
-# Requires Zephyr source code. 
+- Requires Zephyr source code. 
 
-# Requires JLink Software package. 
+- Requires JLink Software package. 
 
-##### RUNNING APPLICATION #####
+## RUNNING APPLICATION ##
 
 1. Navigate to the Application directory (ROOT_DIR).
 
@@ -27,8 +27,8 @@ The following sections will demonstrate how to compile and run the program.
     i) $ west flash.
 
 5. Now the board is running the program and will prompt a uart shell on target. Use the following
-   command to activatethe program.
-   i) uart:~$ activate
+   command to activate the program.
+   i) uart:~$ activate.
 
 6. The program will be triggered on executing the above command and will finish just in 4 seconds as 
    configred in its settings.

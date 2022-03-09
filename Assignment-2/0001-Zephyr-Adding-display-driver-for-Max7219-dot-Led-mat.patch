@@ -1,0 +1,208 @@
+From 4c289467b9d0ab299ebf3f38527b483d124a019f Mon Sep 17 00:00:00 2001
+From: arambhat <arambhat@asu.edu>
+Date: Sun, 6 Mar 2022 23:52:21 -0700
+Subject: [PATCH] Zephyr: Adding display driver for Max7219 dot Led matrix
+
+Added display write, display_balnking functionalities in for the
+Max7219 8x8 Dot Led matrix.
+---
+ display_max7219.h                 | 18 +++++++++
+ drivers/display/display_max7219.c | 64 +++++++++++++++++--------------
+ drivers/display/display_max7219.h | 18 +++++++++
+ 3 files changed, 71 insertions(+), 29 deletions(-)
+ create mode 100644 display_max7219.h
+ create mode 100644 drivers/display/display_max7219.h
+
+diff --git a/display_max7219.h b/display_max7219.h
+new file mode 100644
+index 0000000000..43691098d3
+--- /dev/null
++++ b/display_max7219.h
+@@ -0,0 +1,18 @@
++/*
++ * Copyright (c) 2020 Kim Bøndergaard <kim@fam-boendergaard.dk>
++ *
++ * SPDX-License-Identifier: Apache-2.0
++ */
++#ifndef MAX7219_DISPLAY_DRIVER_H__
++#define MAX7219_DISPLAY_DRIVER_H__
++
++#include <zephyr.h>
++
++#define MAX7219_CMD_DISPLAY_TEST 0x0F01
++#define MAX7219_CMD_NORMAL_MODE 0x0F00
++#define MAX7219_CMD_SCAN_LIMIT_SET_ALL 0x0BFF
++#define MAX7219_CMD_SET_FULL_INTENSITY 0x0AFF
++#define MAX7219_CMD_NORMAL_OP_SHUTDOWN_REG 0x0CFF
++
++
++#endif  /* MAX7219_DISPLAY_DRIVER_H__ */
+diff --git a/drivers/display/display_max7219.c b/drivers/display/display_max7219.c
+index 75873a3dcd..f657b5a446 100644
+--- a/drivers/display/display_max7219.c
++++ b/drivers/display/display_max7219.c
+@@ -10,74 +10,82 @@
+ #include <fsl_iomuxc.h>
+ 
+ #include <logging/log.h>
++#include "display_max7219.h"
+ 
++/* Defining the required data structures */
+ struct max7219_config {
+-	struct spi_dt_spec bus;
++	struct spi_dt_spec spi_user_dt_spec;
+ 	int height;
+ 	int width;
+ };
+ 
++/* Blanking handler functions */
+ static int max7219_blanking_on(const struct device* dev){
+-	return 0; 
++	return -1; 
+ }
+ 
+ static int max7219_blanking_off(const struct device* dev){
+-	return 0; 
++	return -1; 
+ }
+ 
++/* Display write handler */
+ static int max7219_write(const struct device *dev,
+ 			 const uint16_t x,
+ 			 const uint16_t y,
+ 			 const struct display_buffer_descriptor *desc,
+ 			 const void *buf){
++	//fetching the spi bus controller
+ 	struct max7219_config* config = dev->config;
+-	struct spi_dt_spec spi_config = config->bus;
++	struct spi_dt_spec spi_config = config->spi_user_dt_spec;
+ 	int len = sizeof(x);
+-
++	//setting up the buffers to send out data
+ 	struct spi_buf tx_buf = { .buf = &x, .len = len };
+ 	struct spi_buf_set tx_bufs = { .buffers = &tx_buf, .count = 1 };
+-
++	// transfering data through SPI
+ 	spi_write(spi_config.bus, &spi_config.config, &tx_bufs);
+ 	return 0;
+ }
+ 
+-void max7219_lcd_init(struct device* bus, struct spi_config config){
++void max7219_lcd_init(struct device* spi_bus, struct spi_config config){
+ 
+ 	uint16_t buff;
+ 
+ 	struct spi_buf tx_buf = { .buf = &buff, .len = sizeof(buff) };
+ 	struct spi_buf_set tx_bufs = { .buffers = &tx_buf, .count = 1 };
+ 
+-	buff = 0x0F01; // Testing ON
+-	int ret = spi_write(bus, &config, &tx_bufs);
+-
++	//setting up the buffers to send out data
++	buff = MAX7219_CMD_DISPLAY_TEST;
++	int ret = spi_write(spi_bus, &config, &tx_bufs);
++	// To check the display functionality, we need a second to observe.
+ 	k_msleep(1000);
+ 
+-	buff = 0x0F00; // Testing Normal mode (LED's Off)
+-	ret = spi_write(bus, &config, &tx_bufs);
+-
++	buff = MAX7219_CMD_NORMAL_MODE;
++	ret = spi_write(spi_bus, &config, &tx_bufs);
++	// Giving a second to get back to normal mode.
+ 	k_msleep(1000);
+ 
++	// Initialising the other registers such as intensity, shutdown, etc.
++	buff = MAX7219_CMD_SCAN_LIMIT_SET_ALL;
++	ret = spi_write(spi_bus, &config, &tx_bufs);
+ 
+-	buff = 0x0BFF; // Scan Limit set to digit 0 to 7 all
+-	ret = spi_write(bus, &config, &tx_bufs);
++	buff = MAX7219_CMD_SET_FULL_INTENSITY;
++	ret = spi_write(spi_bus, &config, &tx_bufs);
+ 
+-	buff = 0x0AFF; // Intensity set to 32/32
+-	ret = spi_write(bus, &config, &tx_bufs);
++	buff = MAX7219_CMD_NORMAL_OP_SHUTDOWN_REG;
++	ret = spi_write(spi_bus, &config, &tx_bufs);
+ 
+-	buff = 0x0CFF; // Shutdown mode Normal Operation
+-	ret = spi_write(bus, &config, &tx_bufs);
+-
+-	// Set all LEDs as Off
++	// Switch off all LEDs.
+ 	for (uint8_t led_num = 0; led_num<9; led_num++) {
+ 		uint8_t led_off = 0;
+ 
+ 		buff = (led_num << 8) + led_off;
+-		ret = spi_write(bus, &config, &tx_bufs);
++		ret = spi_write(spi_bus, &config, &tx_bufs);
+ 	}
+ }
+ 
++// Driver initialisation function
+ void max7219_init(struct device* dev){
++	// Configuring the CS, CLK and DIN GPIOs for SPI transfer.
+ 	IOMUXC_SetPinMux(IOMUXC_GPIO_SD_B0_01_LPSPI1_PCS0, 0);
+ 	IOMUXC_SetPinConfig(IOMUXC_GPIO_SD_B0_01_LPSPI1_PCS0,
+ 			    IOMUXC_SW_PAD_CTL_PAD_PUE(1) |
+@@ -98,27 +106,25 @@ void max7219_init(struct device* dev){
+ 			    IOMUXC_SW_PAD_CTL_PAD_PKE_MASK |
+ 			    IOMUXC_SW_PAD_CTL_PAD_SPEED(2) |
+ 			    IOMUXC_SW_PAD_CTL_PAD_DSE(6));
+-
++	
++	// Fetching the SPI controller
+ 	struct device* spi_bus = ((struct spi_dt_spec*)(dev->config))->bus;
+ 	struct spi_config config = ((struct spi_dt_spec*)(dev->config))->config;
+-
+-	//config.frequency = 10000;
+-	//config.operation = SPI_OP_MODE_MASTER | SPI_WORD_SET(16) | SPI_TRANSFER_MSB;
+-	//config.slave = 0;
+-
+ 	max7219_lcd_init(spi_bus, config);
+ }
+ 
++// Declaring the display driver API
+ static const struct display_driver_api max7219_api = {
+ 	.blanking_on = max7219_blanking_on,
+ 	.blanking_off = max7219_blanking_off,
+ 	.write = max7219_write
+ };
+ 
++// Intialising the config and data fields 
+ #define MAX7219_INIT(inst)							\
+ 										\
+ 	const static struct max7219_config max7219_config_ ## inst = {		\
+-		.bus = SPI_DT_SPEC_INST_GET(					\
++		.spi_user_dt_spec = SPI_DT_SPEC_INST_GET(					\
+ 			inst, SPI_OP_MODE_MASTER | SPI_WORD_SET(16) | SPI_TRANSFER_MSB, 0),		\
+ 		.width = DT_INST_PROP(inst, width),				\
+ 		.height = DT_INST_PROP(inst, height),				\
+diff --git a/drivers/display/display_max7219.h b/drivers/display/display_max7219.h
+new file mode 100644
+index 0000000000..43691098d3
+--- /dev/null
++++ b/drivers/display/display_max7219.h
+@@ -0,0 +1,18 @@
++/*
++ * Copyright (c) 2020 Kim Bøndergaard <kim@fam-boendergaard.dk>
++ *
++ * SPDX-License-Identifier: Apache-2.0
++ */
++#ifndef MAX7219_DISPLAY_DRIVER_H__
++#define MAX7219_DISPLAY_DRIVER_H__
++
++#include <zephyr.h>
++
++#define MAX7219_CMD_DISPLAY_TEST 0x0F01
++#define MAX7219_CMD_NORMAL_MODE 0x0F00
++#define MAX7219_CMD_SCAN_LIMIT_SET_ALL 0x0BFF
++#define MAX7219_CMD_SET_FULL_INTENSITY 0x0AFF
++#define MAX7219_CMD_NORMAL_OP_SHUTDOWN_REG 0x0CFF
++
++
++#endif  /* MAX7219_DISPLAY_DRIVER_H__ */
+-- 
+2.23.0
+

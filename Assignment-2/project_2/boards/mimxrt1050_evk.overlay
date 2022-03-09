@@ -1,0 +1,56 @@
+#include <dt-bindings/pwm/pwm.h>
+
+/ {
+	aliases {
+		pwm-0 = &flexpwm1_pwm3;
+		pwm-led0 = &r_led;
+	
+		pwm-1 = &flexpwm1_pwm3;
+		pwm-led1 = &g_led;
+
+		pwm-2 = &flexpwm1_pwm1;
+		pwm-led2 = &b_led;
+	};
+
+	pwmleds {
+		compatible = "pwm-leds";
+		r_led: pwmled0 {
+				   label = "PWM LED0";
+				   pwms = <&flexpwm1_pwm3 1 1000 PWM_POLARITY_NORMAL>;
+		};
+		
+		g_led: pwmled1 {
+				   label = "PWM LED1";
+				   pwms = <&flexpwm1_pwm3 0 1000 PWM_POLARITY_NORMAL>;
+		};
+		
+		b_led: pwmled2 {
+				   label = "PWM LED2";
+				   pwms = <&flexpwm1_pwm1 1 1000 PWM_POLARITY_NORMAL>;
+		};
+	
+	};
+};
+
+&flexpwm1_pwm3 {
+	status = "okay";
+};
+
+&flexpwm1_pwm1 {
+	status = "okay";
+};
+
+&lpspi1 {
+	status = "okay";
+	max7219display@0 {
+		compatible = "maxim,max7219";
+		height = <8>;
+		width = <8>;
+		reg = <0>;
+		status = "okay";
+		label = "max7219display";
+		spi-max-frequency = <10000>;
+
+	};
+};
+

@@ -1,0 +1,35 @@
+## A simple display driver program to control max7219 led dot matrix on Zephyr RTOS.
+
+The following sections will demonstrate how to compile and run the program.
+# Author: Ashish kumar rambhatla
+# ASURITE: 1215350552
+
+#####   SYSTEM REQUIREMENTS  #####
+
+# Runs on macos (12.2.1).
+
+# Requires Zephyr source code v 3.0. 
+
+# Requires JLink Software package. 
+
+##### RUNNING APPLICATION #####
+
+1. Navigate to the Application directory (ROOT_DIR).
+
+2. Source the Zephyr environment file using the zephyr-env.sh present in the zephyr source tree.
+    i) $ source zephyrproject/zephyr/zephyr-env.sh
+
+3. Now build the source directory using the following command. 
+    i) $ west build -p auto.
+
+4. After succesful compilation, flash the obtained executable using the below command. Make sure
+   the target configured and connected succesfully before proceeding to the flashing step.
+    i) $ west flash.
+
+5. Now the board is running the program and will prompt a uart shell on target. Use the following
+   command to activatethe program.
+   i) uart:~$ p2 rgb 10 20 30 
+   ii) uart:~$ p2 ledm 3 0x00 0xff
+   iii) uart:~$ p2 ledb 1
+
+6. The program will be triggered on executing the above command and will run the led or dot matrix based on the commands issued.

@@ -65,7 +65,7 @@ LOG_MODULE_REGISTER(main, LOG_LEVEL_DBG);
 static int sock;
 static struct coap_observer observers[NUM_OBSERVERS];
 static struct coap_pending pendings[NUM_PENDINGS];
-static struct coap_resource *resourcesCache[NUM_RESOURCES];
+static struct coap_resource *resources_cache[NUM_RESOURCES];
 static struct k_work_delayable retransmit_work;
 
 /* Distance Sensor related structs*/
@@ -77,7 +77,11 @@ struct k_mutex distanceMtx, samplingMtx;
 static struct k_work_delayable distance0_work, distance1_work;
 /* Cached distance values */
 struct sensor_value gDistance0, gDistance1;
-uint8_t samplingPeriod0, samplingPeriod1;
+
+/* Last updated distance to client*/
+struct sensor_value clientDistance0, clientDistance1;
+
+uint8_t gSamplingPeriod;
 
 struct led_state {
     bool isLedrOn;
@@ -111,59 +115,54 @@ static void measure(struct device *dev, struct sensor_value *distance)
 }
 
 /* Distance measuring function work handlers for two hc-sr04 sensors */
-static void updateDistance0(struct k_work *work) {
-    struct sensor_value distance;
-    bool notify = false; 
+static void updateDistance(struct k_work *work) {
+    struct sensor_value distance0, distance1;
+    bool notify[NUM_RESOURCES] = {false, false}; 
     uint8_t samplingRate;
-    /* Update it in globale cache */
+
+    /* Updating the distance sensor 1 in global cache */
     k_mutex_lock(&distanceMtx, K_FOREVER);
     /* Measure the sensor value */
-    measure(hcsr_0_dev, &distance);
+    measure(hcsr_0_dev, &distance0);
     // As val2 comprises decimal values
-    if ((gDistance0.val2 - distance.val2) > 5) {
-        notify = true;
+    if ((clientDistance0.val2 - distance0.val2) > 5) {
+        notify[0] = true;
     }
-    gDistance0.val1 = distance.val1;
-    gDistance0.val2 = distance.val2;
+    gDistance0.val1 = distance0.val1;
+    gDistance0.val2 = distance0.val2;
+    LOG_DBG("Updated the distance1 values in cache");
+    k_mutex_unlock(&distanceMtx);
+    
+    /* Adding a sleep to avoid errors due to simultaneous distance measurements */
+    k_msleep(5);
+
+    /* Updating the distance sensor 2 in global cache */
+    k_mutex_lock(&distanceMtx, K_FOREVER);
+    /* Measure the sensor value */
+    measure(hcsr_1_dev, &distance1);
+    // As val2 comprises decimal values
+    if ((clientDistance1.val2 - distance1.val2) > 5) {
+        notify[1] = true;
+    }
+    gDistance0.val1 = distance1.val1;
+    gDistance0.val2 = distance1.val2;
     LOG_DBG("Updated the distance1 values in cache");
     k_mutex_unlock(&distanceMtx);
 
-	if (notify && resourcesCache[0]) {
-		coap_resource_notify(resourcesCache[0]);
+	if (notify[0] && resources_cache[0]) {
+		coap_resource_notify(resources_cache[0]);
 	}
+	if (notify[1] && resources_cache[1]) {
+		coap_resource_notify(resources_cache[1]);
+	}
+
+    /* Fetching the latest sampling period from the cache */
     k_mutex_lock(&samplingMtx, K_FOREVER);
-    samplingRate = samplingPeriod0;
+    samplingRate = gSamplingPeriod;
     k_mutex_unlock(&samplingMtx);
+
     /* This work item will be invoked at next sample period */
 	k_work_reschedule(&distance0_work, K_MSEC(samplingRate));
-}
-
-static void updateDistance1(struct k_timer *work) {
-    struct sensor_value distance;
-    bool notify = false;
-    uint8_t samplingRate;
-    /* Update it in globale cache. Mutex helps serialise the measurement process*/
-    k_mutex_lock(&distanceMtx, K_FOREVER);
-    /* Measure the sensor value */
-    measure(hcsr_1_dev, &distance);
-    // As val2 comprises decimal values
-    if ((gDistance1.val2 - distance.val2) > 5) {
-        notify = true;
-    }
-    gDistance1.val1 = distance.val1;
-    gDistance1.val2 = distance.val2;
-    LOG_DBG("Updated the distance2 values in cache");
-    k_mutex_unlock(&distanceMtx);
-
-	if (notify && resourcesCache[1]) {
-		coap_resource_notify(resourcesCache[1]);
-	}
-
-    k_mutex_lock(&samplingMtx, K_FOREVER);
-    samplingRate = samplingPeriod1;
-    k_mutex_unlock(&samplingMtx);
-    /* This work item will be invoked at next sample period */
-	k_work_reschedule(&distance1_work, K_MSEC(samplingRate));
 }
 
 static int start_coap_server(void)
@@ -252,7 +251,7 @@ static int distance_period_put(struct coap_resource *resource,
 	const uint8_t *payload;
 	uint8_t *data;
 	uint16_t payload_len;
-    uint8_t sampling_period;
+    int sampling_period;
 	uint8_t code;
 	uint8_t type;
 	uint8_t tkl;
@@ -269,11 +268,12 @@ static int distance_period_put(struct coap_resource *resource,
 	LOG_INF("*******");
     payload = coap_packet_get_payload(request, &payload_len);
 	if (payload) {
-        sampling_period = atoi(payload);
-		//net_hexdump("PUT Payload", payload, payload_len);
+        //net_hexdump("PUT Payload", payload, payload_len);
         /* Updating the sampling period in global cache */
         k_mutex_lock(&samplingMtx, K_FOREVER);
-        sampling_period = (uint8_t)*payload;
+        sampling_period = atoi(payload);
+        gSamplingPeriod = sampling_period;
+        LOG_DBG("The received sampling rate is: %d", sampling_period);
         k_mutex_unlock(&samplingMtx);
 	}
 
@@ -350,7 +350,7 @@ static int led_put(struct coap_resource *resource,
                 LOG_DBG("ledrg_dev is NULL!!, pin set failed!!!");
             }
             LOG_DBG("JUST AFTER SETTING GPIO PIN");
-            ledState.isLedrOn = true;
+            ledState.isLedrOn = isLedOn;
             LOG_DBG(" LED R is set to: %d", isLedOn);
         } else if (strcmp(resourceName, "ledg") ==  0) {
             if (ledrg_dev){
@@ -358,7 +358,7 @@ static int led_put(struct coap_resource *resource,
             } else {
                 LOG_DBG("ledrg_dev is NULL!!, pin set failed!!!");
             }
-            ledState.isLedgOn = true;
+            ledState.isLedgOn = isLedOn;
             LOG_DBG(" LED G is set to: %d", isLedOn);
         } else if (strcmp(resourceName, "ledb") ==  0) {
             if (ledb_dev){
@@ -366,7 +366,7 @@ static int led_put(struct coap_resource *resource,
             } else {
                 LOG_DBG("ledb_dev is NULL!!, pin set failed!!!");
             }
-            ledState.isLedbOn = true;
+            ledState.isLedbOn = isLedOn;
             LOG_DBG(" LED B is set to: %d", isLedOn);
         } else {
             LOG_DBG(" Unexpected LED pin entered");
@@ -404,11 +404,12 @@ static int led_get(struct coap_resource *resource,
 		    struct coap_packet *request,
 		    struct sockaddr *addr, socklen_t addr_len) 
 {
+    LOG_DBG("Entered led_get function");
     struct coap_packet response;
 	uint8_t payload[40];
 	uint8_t token[COAP_TOKEN_MAX_LEN];
 	uint8_t *data;
-    char status[20];
+    uint8_t status;
 	uint16_t id;
 	uint8_t code;
 	uint8_t type;
@@ -421,9 +422,9 @@ static int led_get(struct coap_resource *resource,
 	tkl = coap_header_get_token(request, token);
     char* resourceName = (char*)((struct coap_core_metadata*)resource->user_data)->user_data;
 
-	LOG_INF("*******");
-	LOG_INF("type: %u code %u id %u", type, code, id);
-	LOG_INF("*******");
+	LOG_DBG("*******");
+	LOG_DBG("type: %u code %u id %u", type, code, id);
+	LOG_DBG("*******");
 
 	if (type == COAP_TYPE_CON) {
 		type = COAP_TYPE_ACK;
@@ -436,25 +437,38 @@ static int led_get(struct coap_resource *resource,
 		return -ENOMEM;
 	}
     /* Fetching the requested LED status from cache */
-    memset(status, '\0', sizeof(status));
     if (strcmp(resourceName, "ledr") ==  0) {
-        strcpy(status, (ledState.isLedrOn? "On" : "Off"));
+        if (ledState.isLedrOn) {
+            status = 1;
+            LOG_DBG("LEDR status: %d", status);
+        } else {
+            status = 0;
+            LOG_DBG("LEDR status: %d", status);
+        }
         r = snprintk((char *) payload, sizeof(payload),
-		        "Type: %u\nCode: %u\nMID: %u LEDR status: %s\n", type, code, id, status);
+		        "Code: %u\nMID: %u\n LEDR status: %u\n", type, code, status);
         if (r < 0) {
             goto end;
         }
     } else if (strcmp(resourceName, "ledg") ==  0) {
-        strcpy(status, (ledState.isLedgOn? "On" : "Off"));
+        if (ledState.isLedgOn) {
+            status = 1;
+        } else {
+            status = 0;
+        }
         r = snprintk((char *) payload, sizeof(payload),
-		        "Type: %u\nCode: %u\nMID: %u LEDG status: %s\n", type, code, id, status);
+		        "Code: %u\nMID: %u\n LEDG status: %u\n", type, code, status);
         if (r < 0) {
             goto end;
         }
     } else if (strcmp(resourceName, "ledb") ==  0) {
-        strcpy(status, (ledState.isLedbOn? "On" : "Off"));
+        if (ledState.isLedbOn) {
+            status = 1;
+        } else {
+            status = 0;
+        }
         r = snprintk((char *) payload, sizeof(payload),
-		        "Type: %u\nCode: %u\nMID: %u LEDB status: %s\n", type, code, id, status);
+		        "Code: %u\nMID: %u LEDB status: %u\n", type, code, status);
         if (r < 0) {
             goto end;
         }
@@ -804,6 +818,7 @@ return dev;
 }
 
 void configureLeds(void) {
+    LOG_DBG("Entered configure LEDs");
     int ret;
     /* Configuring the LED GPIO states */
     ret=gpio_pin_configure(ledrg_dev, PIN0, GPIO_OUTPUT_ACTIVE | FLAGS0); 
@@ -821,12 +836,11 @@ void configureLeds(void) {
 		LOG_DBG("error configuring gpio pin 15 \n");
     gpio_pin_set(ledb_dev, PIN2, LED_OFF);
 
-    
-
     /* Setting up the initial led status to OFF*/
     ledState.isLedrOn = false;
     ledState.isLedgOn = false;
     ledState.isLedbOn = false;
+    LOG_DBG("The current LED state is: %d %d %d", ledState.isLedrOn, ledState.isLedgOn, ledState.isLedbOn);
 return;
 }
 

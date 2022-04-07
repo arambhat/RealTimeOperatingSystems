@@ -1,0 +1,45 @@
+/ {
+    sensors {
+        status = "okay";
+
+        distance_sensor0: hc-sr04-0 {
+            compatible = "elecfreaks,hc-sr04";
+            label = "HC-SR04_0";
+            trig-gpios = <&gpio1 24 GPIO_ACTIVE_HIGH>; // D3 pin
+            echo-gpios = <&gpio1 18 GPIO_ACTIVE_HIGH>; //D6 pin
+            status = "okay";
+        };
+        // Need to check the gpio pins
+        distance_sensor1: hc-sr04-1 {
+            compatible = "elecfreaks,hc-sr04";
+            label = "HC-SR04_1";
+            trig-gpios = <&gpio1 3 GPIO_ACTIVE_HIGH>; // D8 pin
+            echo-gpios = <&gpio1 2 GPIO_ACTIVE_HIGH>; // D9 pin
+            status = "disabled";
+        };
+
+    leds {
+        compatible = "gpio-leds";
+        r_led: led_r {
+            gpios = <&gpio1 11 GPIO_ACTIVE_HIGH>; // D2 pin
+            label = "User LD-R";
+            status = "disabled";
+        };
+
+        g_led: led_g {
+            gpios = <&gpio1 10 GPIO_ACTIVE_HIGH>; // D5 pin
+            label = "User LD-G";
+            status = "disabled";
+        };
+
+        b_led: led_b {
+            gpios = <&gpio3 15 GPIO_ACTIVE_HIGH>; // D12 pin
+            label = "User LD-B";
+            status = "disabled";
+        };
+    };
+
+
+    };
+ 
+};

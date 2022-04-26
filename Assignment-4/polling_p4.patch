@@ -1,0 +1,31 @@
+--- tracing_sysview_org.h	2021-07-13 09:53:50.527739000 -0700
++++ tracing_sysview.h	2022-04-06 21:16:03.207290460 -0700
+@@ -11,6 +11,9 @@
+ 
+ #include <SEGGER_SYSVIEW.h>
+ 
++extern void aperiodic_switched_in(void);
++extern void aperiodic_switched_out(void);
++
+ 
+ #ifdef __cplusplus
+ extern "C" {
+@@ -238,9 +241,15 @@
+ 		sys_trace_thread_info(thread);	\
+ 	} while (0)
+ 
+-#define sys_port_trace_k_thread_switched_out() sys_trace_k_thread_switched_out()
+-
+-#define sys_port_trace_k_thread_switched_in() sys_trace_k_thread_switched_in()
++#define sys_port_trace_k_thread_switched_out() do { 		\
++		sys_trace_k_thread_switched_out();					\
++		aperiodic_switched_out();								\
++	} while (0)	
++
++#define sys_port_trace_k_thread_switched_in() do { 			\
++		sys_trace_k_thread_switched_in();					\
++		aperiodic_switched_in();								\
++	} while (0)	
+ 
+ #define sys_port_trace_k_thread_info(thread) sys_trace_k_thread_info(thread)
+ 

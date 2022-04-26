@@ -1,0 +1,558 @@
+
+[1;32muart:~$ [m[1;36m
+  activate[m[2C[1;36mclear[m[5C[1;36mdevice[m[4C[1;36mhelp[m[6C[1;36mhistory[m[3C[1;36mkernel[m[4C[1;36mlog[m[7C[1;36m
+  resize[m[4C[1;36mshell[m[5C
+[1;32muart:~$ [mactivate 
+task 0 gets started 
+task 1 gets started 
+task 2 gets started 
+task 3 gets started 
+[1;32muart:~$ [mStopped threads
+
+[1;32muart:~$ [m
+[1;32muart:~$ [m*** Booting Zephyr OS build zephyr-v2.6.0-1-gd041c490bc70  ***
+Threads Initialized!
+
+
+[1;32muart:~$ [m
+[1;32muart:~$ [m\\[1D[J[1D[J
+[1;32muart:~$ [m
+[1;32muart:~$ [mactivate 
+task 0 gets started 
+task 1 gets started 
+task 2 gets started 
+task 3 gets started 
+[1;32muart:~$ [m
+[1;32muart:~$ [m[1B[9D[00:00:13.439,000] [1;31m<err> os: ***** MPU FAULT *****[0m
+[8D[J[00:00:13.439,000] [1;31m<err> os: ***** MPU FAULT *****[0m
+[00:00:13.439,000] [1;31m<err> os:   Instruction Access Violation[0m
+[8D[J[00:00:13.439,000] [1;31m<err> os:   Instruction Access Violation[0m
+[00:00:13.439,000] [1;31m<err> os: r0/a1:  0x80001f48  r1/a2:  0x00000000  r2/a3:  0x800007e8[0m
+[8D[J[00:00:13.439,000] [1;31m<err> os: r0/a1:  0x80001f48  r1/a2:  0x00000000  r2/a3:  0x800007e8[0m
+[00:00:13.439,000] [1;31m<err> os: r3/a4:  0x800002a8 r12/ip:  0xffffffff r14/lr:  0x600092f9[0m
+[8D[J[00:00:13.439,000] [1;31m<err> os: r3/a4:  0x800002a8 r12/ip:  0xffffffff r14/lr:  0x600092f9[0m
+[00:00:13.439,000] [1;31m<err> os:  xpsr:  0x4000000f[0m
+[8D[J[00:00:13.439,000] [1;31m<err> os:  xpsr:  0x4000000f[0m
+[00:00:13.439,000] [1;31m<err> os: Faulting instruction address (r15/pc): 0x800002a8[0m
+[8D[J[00:00:13.439,000] [1;31m<err> os: Faulting instruction address (r15/pc): 0x800002a8[0m
+[00:00:13.439,000] [1;31m<err> os: >>> ZEPHYR FATAL ERROR 0: CPU exception on CPU 0[0m
+[8D[J[00:00:13.439,000] [1;31m<err> os: >>> ZEPHYR FATAL ERROR 0: CPU exception on CPU 0[0m
+[00:00:13.439,000] [1;31m<err> os: Fault during interrupt handling
+[0m
+[8D[J[00:00:13.439,000] [1;31m<err> os: Fault during interrupt handling
+[0m
+[00:00:13.439,000] [1;31m<err> os: Current thread: 0x80000418 (task22)[0m
+[8D[J[00:00:13.439,000] [1;31m<err> os: Current thread: 0x80000418 (task22)[0m
+[00:00:14.438,000] [1;31m<err> os: Halting system[0m
+[8D[J[00:00:14.438,000] [1;31m<err> os: Halting system[0m
+*** Booting Zephyr OS build zephyr-v2.6.0-1-gd041c490bc70  ***
+Threads Initialized!
+
+
+[1;32muart:~$ [m
+[1;32muart:~$ [m[1;36m
+  activate[m[2C[1;36mclear[m[5C[1;36mdevice[m[4C[1;36mhelp[m[6C[1;36mhistory[m[3C[1;36mkernel[m[4C[1;36mlog[m[7C[1;36m
+  resize[m[4C[1;36mshell[m[5C
+[1;32muart:~$ [mactivate 
+task 0 gets started 
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+task 1 gets started 
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+task 2 gets started 
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+task 3 gets started 
+DEBUG: thread():90: Thread 3 running tDEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+ask1
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 3 sleeping for 360 ms
+[1;32muart:~$ [mDEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+Thread 1 sleeping for 160 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+DEBUG: thread():90: Thread 3 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: TDEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+task 3 misses its deadline 
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+hread 2 sleeping for 220 ms
+DEBUG: thread():99:DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+ Thread 3 sleeping for 360 ms
+DEBUG: thread():90: Thread 3 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+DEBUG: thDEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+read():99: Thread 3 sleeping for 360 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+DEBUG: thread():90: Thread 3 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thDEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+read():99: Thread 3 sleeping for 360 ms
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 3 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: threaDEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+d():99: Thread 3 sleeDEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+ping for 360 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 3 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+DEBUG: thDEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+read():99: Thread 3 sleeping for 360 ms
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+DEBUG: thread():90: Thread 3 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():99: Thread 3 sleeping for 360 msDEBUG: thread():90: Thread 0 running task1
+task 3 misses its deadline 
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+
+DEBUG: thread():90: Thread 3 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+Thread 1 sleeping for 160 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+DEBUG: threDEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+ad():99: Thread 3 sleeping for 360 ms
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+DEBUG: thread():90: Thread 3 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+DEBUG: thread():99: Thread 3 sleeping for 360 DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+ms
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99:DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+ Thread 2 sleeping for 220 ms
+DEBUG: thread():90: Thread 3 running task1
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+DEBUG: tDEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+task 3 misses its deadline 
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+hread():99: Thread 3 sleeping for 360 ms
+DEBUG: thread():90: Thread 3 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 3 sleeping for 360 ms
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+DEBUG: thread():90: Thread 3 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+DEBUG: thread():99: Thread 3 sleeping for 360 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 3 running task1
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thrDEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+ead():99: Thread 2 sleeping for 220 ms
+DEBUG: thread():99: Thread 3 sleeping foDEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+r 360 ms
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 3 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 2 sleeping forDEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+ 220 ms
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 3 sleeping for 360 ms
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+DEBUG: thread():90: Thread 3 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():99: Thread 3 sleeping for 360 ms
+DEBUG: thread():90: Thread 3 running tasDEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+k1
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: threaDEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+d():99: Thread 2 sleeping for 220 ms
+DEBUG: thread():99: Thread 3 sleeping for 360 ms
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 2 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99:DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+ Thread 2 sleeping for 220 ms
+DEBUG: thread():90: Thread 3 running task1
+DEBUG: thread():90: Thread 1 running task1
+DEBUG: thread():90: Thread 0 running task1
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():99: Thread 3 sleeping for 360 ms
+Stopped threads
+[Jactivate[8D[J[Jactivate[8D[J
+[1;32muart:~$ [m
+[1;32muart:~$ [m[1;36m
+  activate[m[2C[1;36mclear[m[5C[1;36mdevice[m[4C[1;36mhelp[m[6C[1;36mhistory[m[3C[1;36mkernel[m[4C[1;36mlog[m[7C[1;36m
+  resize[m[4C[1;36mshell[m[5C
+[1;32muart:~$ [ma[1D[Jactivate 
+task 0 gets started 
+DEBUG: thread():90: Thread 0 running task
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+task 1 gets started 
+DEBUG: thread():90: Thread 1 running task
+DEBUG: thread():90: Thread 0 running task
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+task 2 gets started 
+DEBUG: thread():90: Thread 2 running task
+DEBUG: thread():90: Thread 0 running task
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+task 3 gets started 
+DEBUG: thread():90: Thread 3 running task
+DEBUG: thread():90: Thread 0 running task
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task
+DEBUG: thread():90: Thread 0 running task
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 0 running task
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 3 sleeping for 360 ms
+[1;32muart:~$ [mDEBUG: thread():90: Thread 0 running task
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 2 running task
+DEBUG: thread():90: Thread 1 running task
+DEBUG: thread():90: Thread 0 running task
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: ThrDEBUG: thread():90: Thread 0 running task
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+ead 1 sleeping for 160 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+DEBUG: thread():90: Thread 0 running task
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 0 running task
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task
+DEBUG: thread():90: Thread 0 running task
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 2 running task
+DEBUG: thread():90: Thread 0 running task
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 2 sleeping for 220 ms
+DEBUG: thread():90: Thread 3 running task
+DEBUG: thread():90: Thread 0 running task
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 1 running task
+DEBUG: thread():90: Thread 0 running task
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+DEBUG: thread():90: Thread 2 running task
+DEBUG: thread():90: Thread 0 running task
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEDEBUG: thread():90: Thread 0 running task
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+BUG: thread():99: ThrDEBUG: thread():90: Thread 1 running task
+DEBUG: thread():90: Thread 0 running task
+task 3 misses its deadline 
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 1 sleeping for 160 ms
+ead 2 sleeping for 220 ms
+DEBUG: thread():99: Thread 3 slDEBUG: thread():90: Thread 0 running task
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+eeping for 360 ms
+DEBUG: thread():90: Thread 3 running task
+DEBUG: thread():90: Thread 0 running task
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():90: Thread 2 running task
+DEBUG: thDEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: Thread 3 sleeping for 3DEBUG: thread():90: Thread 1 running task
+DEBUG: thread():90: Thread 0 running task
+DEBUG: thread():99: Thread 0 sleeping for 50 ms
+DEBUG: thread():99: ThDEBUG: 
+[1;32muart:~$ [m
+[1;32muart:~$ [m
+[1;32muart:~$ [m
+[1;32muart:~$ [m
+[1;32muart:~$ [m
+[1;32muart:~$ [m[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J[J:q
+[1;31m:q: command not found
+[m[1;32muart:~$ [m
